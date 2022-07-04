@@ -253,7 +253,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92841c9e1699c1b44b75085655d95d0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 5
+  walkSpeed: 3
+  runSpeed: 10
+  crouchSpeed: 1.5
+  jumpForce: 5
+  crouchPosY: 0
   lookSensitivity: 2
   cameraRotationLimit: 45
   theCamera: {fileID: 963194227}

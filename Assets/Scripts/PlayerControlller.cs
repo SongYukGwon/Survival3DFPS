@@ -4,18 +4,45 @@ using UnityEngine;
 
 public class PlayerControlller : MonoBehaviour
 {
+    //스피드 조정 변수
     [SerializeField]
     private float walkSpeed;
+    [SerializeField]
+    private float runSpeed;
+    [SerializeField]
+    private float crouchSpeed;
 
+    private float applySpeed;
+
+    [SerializeField]
+    private float jumpForce;
+
+    //상태변수
+    private bool isRun = false;
+    private bool isGround = true;
+    private bool isCrouch = false;
+
+    //앉았을 때 얼마나 앉을지 결정하는 변수.
+    [SerializeField]
+    private float crouchPosY;
+    private float originPosY;
+    private float applyCrouchPosY;
+
+
+    //땅 착지 여부를 알기위한 컴포넌트
+    private CapsuleCollider capsuleCollider;
+
+    //카메라 민감도
     [SerializeField]
     private float lookSensitivity;
 
+    //카메라 한계
     [SerializeField]
     private float cameraRotationLimit;
     private float currentCamearaRotationX = 0;
 
 
-
+    //필요 컴포넌트
     [SerializeField]
     private Camera theCamera;
     private Rigidbody myRigid;
@@ -26,6 +53,11 @@ public class PlayerControlller : MonoBehaviour
     void Start()
     {
         myRigid = GetComponent<Rigidbody>();
+        capsuleCollider = GetComponent<CapsuleCollider>();
+        applySpeed = walkSpeed;
+        //상대적인 기준으로 받아옴
+        originPosY = theCamera.transform.localPosition.y;
+        applyCrouchPosY = originPosY;
     }
 
 
@@ -33,11 +65,119 @@ public class PlayerControlller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CameraRotation();
+        IsGround();
+        TryJump();
+        TryRun();
+        TryCrouch();
         Move();
+        CameraRotation();
         CharacterRotation();
     }
+    //앉기 시도
+    private void TryCrouch()
+    {
+        if(Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            Crouch();
+        }
+    }
 
+    //앉기 동작
+    private void Crouch()
+    {
+        isCrouch = !isCrouch;
+
+        if(isCrouch)
+        {
+            applySpeed = crouchSpeed;
+            applyCrouchPosY = crouchPosY;
+        }
+        else
+        {
+            applySpeed = walkSpeed;
+            applyCrouchPosY = originPosY;
+        }
+        StartCoroutine(CrouchCoroutine());
+    }
+
+    //부드러운 앉기 동작
+    //동시 실행되는 함수
+    IEnumerator CrouchCoroutine()
+    {
+        float _posY = theCamera.transform.localPosition.y;
+        int count = 0;
+        while(_posY != applyCrouchPosY)
+        {
+            count++;
+            _posY = Mathf.Lerp(_posY, applyCrouchPosY, 0.3f);
+            theCamera.transform.localPosition = new Vector3(0, _posY, 0);
+            //한프레임대기
+            if (count > 15)
+                break;
+            yield return null;
+        }
+        theCamera.transform.localPosition = new Vector3(0, applyCrouchPosY, 0f);
+    }
+
+    //지면 체크
+    private void IsGround()
+    {
+        //Vector는 월드 기준좌표로 보여준다. transform은 오브젝트 기준
+        //bounds.extends.y 영역의.반사이즈의.y크기 -> 오브젝트 영역의 y의 반의 크기만큼 레이저를 쏨
+        //반환은 bool
+        isGround = Physics.Raycast(transform.position,Vector3.down, capsuleCollider.bounds.extents.y + 0.1f);
+
+
+
+    }
+    
+    //점프시도
+    private void TryJump()
+    {
+        if(Input.GetKeyDown(KeyCode.Space) && isGround)
+        {
+            Jump();
+        }
+    }
+    //점프
+    private void Jump()
+    {
+        //앉은사앹에서 점프시 앉은 상태 해제
+        if (isCrouch)
+            Crouch();
+
+        //up 010
+        myRigid.velocity = transform.up * jumpForce;
+
+    }
+    //달리기 시도
+    private void TryRun()
+    {
+        if(Input.GetKey(KeyCode.LeftShift))
+        {
+            Running();
+        }
+        if(Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            RunningCancel();
+        }
+    }
+    //달리기
+    private void Running()
+    {
+        if (isCrouch)
+            Crouch();
+
+        isRun = true;
+        applySpeed = runSpeed;
+    }
+    //달리기 취소
+    private void RunningCancel()
+    {
+        isRun = false;
+        applySpeed = walkSpeed;
+    }
+    //카메라 회전
     private void CameraRotation()
     {
         float _xRotation = Input.GetAxisRaw("Mouse Y");
@@ -47,7 +187,7 @@ public class PlayerControlller : MonoBehaviour
 
         theCamera.transform.localEulerAngles = new Vector3(currentCamearaRotationX, 0f, 0f);
     }
-
+    //걷기
     private void Move()
     {
         float _moveDirX = Input.GetAxisRaw("Horizontal");
@@ -59,14 +199,14 @@ public class PlayerControlller : MonoBehaviour
         Vector3 _moveVertical = transform.forward * _moveDirZ;
 
         // 101 합계가 2인것을 합계를 1로 바꿔줌 0.5 0 0.5 1초에 이동하는 값을 일정화시키는 것
-        Vector3 _velocity = (_moveHorizontal + _moveVertical).normalized * walkSpeed;
+        Vector3 _velocity = (_moveHorizontal + _moveVertical).normalized * applySpeed;
 
         myRigid.MovePosition(transform.position + _velocity * Time.deltaTime);
 
 
         
     }
-
+    //위아래 카메라 설정
     private void CharacterRotation()
     {
         float _yRotation = Input.GetAxisRaw("Mouse X");
