@@ -1,20 +1,59 @@
 fileFormatVersion: 2
 guid: dba3a25bc779a9c4d8d73455c87ae7bd
 ModelImporter:
-  serializedVersion: 21202
-  internalIDToNameTable:
-  - first:
-      74: -6815075719906170064
-    second: Camera|CircleAction
-  - first:
-      74: 4781951162920444690
-    second: Armature|ArmatureAction
-  - first:
-      74: -459742428196443844
-    second: Armature|CircleAction
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Armature
+    100002: arms
+    100004: Camera
+    100006: DownArm.L
+    100008: DownArm.L_end
+    100010: DownArm.R
+    100012: DownArm.R_end
+    100014: Gun
+    100016: gun
+    100018: gun_end
+    100020: //RootNode
+    100022: Magazine
+    100024: Magazine 1
+    100026: Magazine_end
+    100028: UpArm.L
+    100030: UpArm.R
+    400000: Armature
+    400002: arms
+    400004: Camera
+    400006: DownArm.L
+    400008: DownArm.L_end
+    400010: DownArm.R
+    400012: DownArm.R_end
+    400014: Gun
+    400016: gun
+    400018: gun_end
+    400020: //RootNode
+    400022: Magazine
+    400024: Magazine 1
+    400026: Magazine_end
+    400028: UpArm.L
+    400030: UpArm.R
+    2000000: Camera
+    2100000: gun
+    2100002: Iron
+    2100004: Magazine
+    2100006: ArmRed
+    2100008: Skin
+    4300000: Gun
+    4300002: Magazine
+    4300004: arms
+    7400000: Camera|CircleAction
+    7400002: Armature|ArmatureAction
+    7400004: Armature|CircleAction
+    9500000: //RootNode
+    13700000: arms
+    13700002: Gun
+    13700004: Magazine
   externalObjects: {}
   materials:
-    materialImportMode: 2
+    importMaterials: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -23,7 +62,6 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
-    removeConstantScaleCurves: 1
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -48,34 +86,25 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
-    sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
-    nodeNameCollisionStrategy: 1
-    fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
+    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
-    bakeAxisConversion: 0
     preserveHierarchy: 0
-    skinWeightsMode: 0
-    maxBonesPerVertex: 4
-    minBoneWeight: 0.001
-    optimizeBones: 1
-    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
-    secondaryUVMarginMethod: 1
-    secondaryUVMinLightmapResolution: 40
-    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -84,10 +113,10 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
-  referencedClips: []
   importAnimation: 1
+  copyAvatar: 0
   humanDescription:
-    serializedVersion: 3
+    serializedVersion: 2
     human: []
     skeleton: []
     armTwist: 0.5
@@ -97,17 +126,13 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
-  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
