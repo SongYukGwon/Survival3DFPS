@@ -81,6 +81,7 @@ public class GunController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.R) && !isReload && currentGun.currentBulletCount < currentGun.reloadBulletCount)
         {
+            CancelFineSight();
             StartCoroutine(ReloadCouroutine());
         }
     }
@@ -120,7 +121,6 @@ public class GunController : MonoBehaviour
     {
         if(Input.GetButtonDown("Fire2") && !isReload)
         {
-            CancelFineSight();
             FineSight();
         }
     }
