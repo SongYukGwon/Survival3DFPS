@@ -4,22 +4,44 @@ using UnityEngine;
 
 public class GunController : MonoBehaviour
 {
+
+    //현재 장착된 총
     [SerializeField]
     private Gun currentGun;
 
+
+    // 연사속도 계산
     private float currentFireRate;
 
+
+    //효과음
     private AudioSource audioSource;
 
+
+    //상태변수
     private bool isReload = false;
-    private bool isFindSightMode = false;
+    [HideInInspector]
+    public bool isFindSightMode = false;
 
     //본래포지션값
     [SerializeField]
     private Vector3 originPos;
 
+    //충돌 정보 받아옴.
+    private RaycastHit hitInfo;
+
+    //필요한 컴포넌트
+    [SerializeField]
+    private Camera theCam;
+
+    //피격 이펙트
+    [SerializeField]
+    private GameObject hit_effect_prefab;
+
+
     private void Start()
     {
+        originPos = Vector3.zero;
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -32,6 +54,7 @@ public class GunController : MonoBehaviour
         TryFindSight();
     }
 
+    //연사속도 재계산
     private void GunFireRateCalc()
     {
         if (currentFireRate > 0)
@@ -40,6 +63,7 @@ public class GunController : MonoBehaviour
 
     }
 
+    //발사시도
     private void TryFire()
     {
         if(Input.GetButton("Fire1") && currentFireRate <= 0 && !isReload)
@@ -48,7 +72,7 @@ public class GunController : MonoBehaviour
         }
     }
 
-    //발사전
+    //발사전 계산
     private void Fire()
     {
         if (!isReload)
@@ -65,18 +89,29 @@ public class GunController : MonoBehaviour
         }
     }
 
-    //발사후
+    //발사후 계산
     private void Shoot()
     {
         currentGun.currentBulletCount--;
         currentFireRate = currentGun.fireRate; // 연사속도 재계산
         PlaySE(currentGun.fire_Sound);
         currentGun.muzzleFlash.Play();
-
+        Hit();
         StopAllCoroutines();
         StartCoroutine(RetroActionCoroutine());
     }
 
+    private void Hit()
+    {
+        if (Physics.Raycast(theCam.transform.position, theCam.transform.forward, out hitInfo, currentGun.range))
+        {
+            GameObject clone = Instantiate(hit_effect_prefab, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
+            Destroy(clone, 2);
+
+        }
+    }
+
+    //재장전 시도
     private void TryReload()
     {
         if(Input.GetKeyDown(KeyCode.R) && !isReload && currentGun.currentBulletCount < currentGun.reloadBulletCount)
@@ -86,6 +121,7 @@ public class GunController : MonoBehaviour
         }
     }
 
+    //재장전
     IEnumerator ReloadCouroutine()
     {
         if(currentGun.carryBulletCount > 0)
@@ -117,6 +153,7 @@ public class GunController : MonoBehaviour
         }
     }
 
+    //정조준 시도
     private void TryFindSight()
     {
         if(Input.GetButtonDown("Fire2") && !isReload)
@@ -125,12 +162,14 @@ public class GunController : MonoBehaviour
         }
     }
 
+    //정조준 취소
     public void CancelFineSight()
     {
         if (isFindSightMode)
             FineSight();
     }
 
+    //정조준 로직가동
     private void FineSight()
     {
         isFindSightMode = !isFindSightMode;
@@ -148,6 +187,7 @@ public class GunController : MonoBehaviour
         }
     }
 
+    //정조준활성화
     IEnumerator FindSightActivateCoroutine()
     {
         while(currentGun.transform.localPosition != currentGun.findSightOriginPos)
@@ -156,6 +196,8 @@ public class GunController : MonoBehaviour
             yield return null;
         }
     }
+
+    //정조준비활성화
     IEnumerator FindSightDeactivateCoroutine()
     {
         while(currentGun.transform.localPosition != originPos)
@@ -165,10 +207,11 @@ public class GunController : MonoBehaviour
         }
     }
 
+    //반동 코루틴
     IEnumerator RetroActionCoroutine()
     {
         Vector3 recoilBack = new Vector3(currentGun.retroActionForce, originPos.y, originPos.z);
-        Vector3 retroActionRecoilBack = new Vector3(currentGun.retroActionForce, currentGun.findSightOriginPos.y, currentGun.findSightOriginPos.z);
+        Vector3 retroActionRecoilBack = new Vector3(currentGun.retroActionFineSightForce, currentGun.findSightOriginPos.y, currentGun.findSightOriginPos.z);
 
         if(!isFindSightMode)
         {
@@ -204,13 +247,15 @@ public class GunController : MonoBehaviour
 
             while (currentGun.transform.localPosition != currentGun.findSightOriginPos)
             {
-                currentGun.transform.localPosition = Vector3.Lerp(currentGun.transform.localPosition, retroActionRecoilBack, 0.1f);
+                currentGun.transform.localPosition = Vector3.Lerp(currentGun.transform.localPosition, currentGun.findSightOriginPos, 0.1f);
                 yield return null;
             }
         }
 
     }
 
+
+    //사운드 재생
     private void PlaySE(AudioClip _clip)
     {
         audioSource.clip = _clip;
