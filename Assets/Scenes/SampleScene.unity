@@ -243,6 +243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentGun: {fileID: 1074133998}
+  originPos: {x: 0, y: 0, z: 0}
 --- !u!82 &200452916
 AudioSource:
   m_ObjectHideFlags: 0
@@ -893,7 +894,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 802736949}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.4, z: 0}
+  m_LocalPosition: {x: 0, y: 0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1127,8 +1128,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1031625869}
   m_LocalRotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: -2.9162505, y: 0.38249996, z: 0.41411427}
-  m_LocalScale: {x: 0.117647044, y: 0.12500001, z: 0.12500001}
+  m_LocalPosition: {x: -2.9163983, y: 0.39356595, z: 0.4216045}
+  m_LocalScale: {x: 0.11764705, y: 0.12500001, z: 0.12500003}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1074133996}
@@ -6007,13 +6008,13 @@ MonoBehaviour:
   fireRate: 0.2
   reloadTime: 2
   damage: 30
-  reloadBulletCount: 30
-  currentBulletCount: 30
+  reloadBulletCount: 10
+  currentBulletCount: 10
   maxBulletCount: 0
-  carryBulletCount: 0
-  retroActionForce: 0
-  retroActionFineSightForce: 0
-  findSightOriginPos: {x: 0, y: 0, z: 0}
+  carryBulletCount: 23
+  retroActionForce: 0.3
+  retroActionFineSightForce: 0.7
+  findSightOriginPos: {x: 0.3, y: 0.33, z: -0.5}
   anim: {fileID: 1074133997}
   muzzleFlash: {fileID: 1031625872}
   fire_Sound: {fileID: 8300000, guid: c22241c2c40c7ae4b9e9473969b423b0, type: 3}
@@ -6198,6 +6199,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: f07bdeab848f3a44caf55d3aedc0a5eb, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: e4f28935adedc2a469382f8ee08f36ff, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f07bdeab848f3a44caf55d3aedc0a5eb, type: 3}
 --- !u!1 &1326736573
