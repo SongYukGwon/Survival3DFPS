@@ -18,9 +18,13 @@ public class PlayerControlller : MonoBehaviour
     private float jumpForce;
 
     //상태변수
+    private bool isWalk = false;
     private bool isRun = false;
     private bool isGround = true;
     private bool isCrouch = false;
+
+    //움직임 체크 변수
+    private Vector3 lastPos;
 
     //앉았을 때 얼마나 앉을지 결정하는 변수.
     [SerializeField]
@@ -47,6 +51,7 @@ public class PlayerControlller : MonoBehaviour
     private Camera theCamera;
     private Rigidbody myRigid;
     private GunController theGunController;
+    private CrossHair theCrosshair;
 
 
 
@@ -56,8 +61,10 @@ public class PlayerControlller : MonoBehaviour
         myRigid = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
         theGunController = FindObjectOfType<GunController>();
+        theCrosshair = FindObjectOfType<CrossHair>();
+        //상대적인 기준으로 받아dha
+        //초기화
         applySpeed = walkSpeed;
-        //상대적인 기준으로 받아옴
         originPosY = theCamera.transform.localPosition.y;
         applyCrouchPosY = originPosY;
     }
@@ -74,7 +81,23 @@ public class PlayerControlller : MonoBehaviour
         Move();
         CameraRotation();
         CharacterRotation();
+        MoveCheck();
     }
+
+    private void MoveCheck()
+    {
+        if(!isRun && !isCrouch && isGround)
+        {
+            if (Vector3.Distance(lastPos, transform.position) >= 0.01f)
+                isWalk = true;
+            else
+                isWalk = false;
+
+            theCrosshair.WalkingAnimation(isWalk);
+            lastPos = transform.position;
+        }
+    }
+
     //앉기 시도
     private void TryCrouch()
     {
@@ -88,8 +111,8 @@ public class PlayerControlller : MonoBehaviour
     private void Crouch()
     {
         isCrouch = !isCrouch;
-
-        if(isCrouch)
+        theCrosshair.CrouchingAnimation(isCrouch);
+        if (isCrouch)
         {
             applySpeed = crouchSpeed;
             applyCrouchPosY = crouchPosY;
@@ -128,7 +151,7 @@ public class PlayerControlller : MonoBehaviour
         //bounds.extends.y 영역의.반사이즈의.y크기 -> 오브젝트 영역의 y의 반의 크기만큼 레이저를 쏨
         //반환은 bool
         isGround = Physics.Raycast(transform.position,Vector3.down, capsuleCollider.bounds.extents.y + 0.1f);
-
+        theCrosshair.RunningAnimation(!isGround);
 
 
     }
@@ -173,6 +196,7 @@ public class PlayerControlller : MonoBehaviour
         theGunController.CancelFineSight();
 
         isRun = true;
+        theCrosshair.RunningAnimation(isRun);
         applySpeed = runSpeed;
     }
     //달리기 취소
@@ -180,6 +204,7 @@ public class PlayerControlller : MonoBehaviour
     {
         isRun = false;
         applySpeed = walkSpeed;
+        theCrosshair.RunningAnimation(isRun);
     }
     //카메라 회전
     private void CameraRotation()
