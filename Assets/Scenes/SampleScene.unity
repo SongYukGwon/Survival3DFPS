@@ -311,6 +311,7 @@ GameObject:
   - component: {fileID: 200452914}
   - component: {fileID: 200452915}
   - component: {fileID: 200452916}
+  - component: {fileID: 200452917}
   m_Layer: 2
   m_Name: Holder
   m_TagString: Untagged
@@ -342,7 +343,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 200452912}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1efa4f0bf81b9234bbb31ace0ac243cd, type: 3}
   m_Name: 
@@ -462,6 +463,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &200452917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 200452912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9debbdca9acd874cbb668e536e9dc6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentWeaponType: GUN
+  changeWeaponDelayTime: 0.1
+  changeWeaponEndDelayTime: 0.1
+  guns:
+  - {fileID: 1074133998}
+  hands:
+  - {fileID: 1441041625}
+  theGunController: {fileID: 200452915}
+  theHandController: {fileID: 200452914}
 --- !u!1 &232082933
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,7 +636,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &269842383
 Transform:
   m_ObjectHideFlags: 0
@@ -1572,7 +1594,7 @@ Transform:
   m_GameObject: {fileID: 802736949}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0000001, y: 1, z: 1.0000001}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1074133996}
@@ -7730,6 +7752,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3321203663671794127, guid: b519273f0fe335a468b42108103bf219,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3321203663671794129, guid: b519273f0fe335a468b42108103bf219,
         type: 3}

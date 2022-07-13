@@ -151,7 +151,7 @@ public class PlayerControlller : MonoBehaviour
         //bounds.extends.y 영역의.반사이즈의.y크기 -> 오브젝트 영역의 y의 반의 크기만큼 레이저를 쏨
         //반환은 bool
         isGround = Physics.Raycast(transform.position,Vector3.down, capsuleCollider.bounds.extents.y + 0.1f);
-        theCrosshair.RunningAnimation(!isGround);
+        theCrosshair.JumpAnimation(!isGround);
 
 
     }
