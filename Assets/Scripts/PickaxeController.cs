@@ -2,11 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AxeController : CloseWeaponController
+public class PickaxeController : CloseWeaponController
 {
     //활성화 여부
-    public static bool isActivate = false;
+    public static bool isActivate = true;
 
+
+    private void Start()
+    {
+        WeaponManager.currentWeapon = currentWeapon.GetComponent<Transform>();
+        WeaponManager.currentWeaponAnim = currentWeapon.anim;
+    }
 
     // Update is called once per frame
     void Update()
@@ -16,9 +22,9 @@ public class AxeController : CloseWeaponController
     }
     protected override IEnumerator HitCoroutine()
     {
-        while(isSwing)
+        while (isSwing)
         {
-            if(CheckObject())
+            if (CheckObject())
             {
                 isSwing = false;
                 Debug.Log(hitInfo.transform.name);

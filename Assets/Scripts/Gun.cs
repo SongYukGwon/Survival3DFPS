@@ -28,16 +28,4 @@ public class Gun : MonoBehaviour
     public ParticleSystem muzzleFlash;
 
     public AudioClip fire_Sound;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
