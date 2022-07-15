@@ -6,7 +6,7 @@ public class WeaponManager : MonoBehaviour
 {
     //공유자원, 클래스 변수 = 정적 변수
     public static bool isChangeWeapon;
-
+    
     //현재 무기의 타입.
     [SerializeField]
     private string currentWeaponType;
@@ -20,16 +20,16 @@ public class WeaponManager : MonoBehaviour
     private float changeWeaponDelayTime;
     [SerializeField]
     private float changeWeaponEndDelayTime;
-
+    
     //무기 종류들 전부 관리
     [SerializeField]
     private Gun[] guns;
     [SerializeField]
-    private Hand[] hands;
+    private CloseWeapon[] hands;
 
     //관리 차원에서 쉽게 무기 접근이 가능하도록 만듦.
     private Dictionary<string, Gun> gunDictionary = new Dictionary<string, Gun>();
-    private Dictionary<string, Hand> handDictionary = new Dictionary<string, Hand>();
+    private Dictionary<string, CloseWeapon> handDictionary = new Dictionary<string, CloseWeapon>();
 
 
     //필요한 컴포너트
@@ -49,7 +49,7 @@ public class WeaponManager : MonoBehaviour
         }
         for (int i = 0; i < hands.Length; i++)
         {
-            handDictionary.Add(hands[i].handName, hands[i]);
+            handDictionary.Add(hands[i].closeWeaponName, hands[i]);
         }
     }
 
@@ -102,7 +102,7 @@ public class WeaponManager : MonoBehaviour
         if(_type == "GUN")
             theGunController.GunChange(gunDictionary[_name]);
         else if (_type == "HAND")
-            theHandController.HandChange(handDictionary[_name]);
+            theHandController.CloseWeaponChange(handDictionary[_name]);
         
     }
 }

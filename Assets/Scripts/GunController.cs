@@ -5,7 +5,7 @@ using UnityEngine;
 public class GunController : MonoBehaviour
 {
     //활성화 여부
-    public static bool isActivate = true;
+    public static bool isActivate = false;
 
     //현재 장착된 총
     [SerializeField]
