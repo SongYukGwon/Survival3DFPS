@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -312,6 +312,7 @@ GameObject:
   - component: {fileID: 200452915}
   - component: {fileID: 200452916}
   - component: {fileID: 200452917}
+  - component: {fileID: 200452918}
   m_Layer: 2
   m_Name: Holder
   m_TagString: Untagged
@@ -327,7 +328,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 200452912}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -484,6 +485,22 @@ MonoBehaviour:
   - {fileID: 1441041625}
   theGunController: {fileID: 200452915}
   theHandController: {fileID: 200452914}
+--- !u!114 &200452918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 200452912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03dd2e4ec2feb5547af0a29fc368d6c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  limitPos: {x: 0.3, y: 0.1, z: 0}
+  fineSightLimitPos: {x: 0.02, y: 0.01, z: 0}
+  smoothSway: {x: 0.05, y: 0.05, z: 0}
+  theGunController: {fileID: 200452915}
 --- !u!1 &232082933
 GameObject:
   m_ObjectHideFlags: 0
@@ -888,7 +905,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 436620196}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1593,7 +1610,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 802736949}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.3, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.0000001, y: 1, z: 1.0000001}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6932,7 +6949,7 @@ MonoBehaviour:
   carryBulletCount: 90
   retroActionForce: 0.3
   retroActionFineSightForce: 0.7
-  findSightOriginPos: {x: 0.3, y: 0.33, z: -0.5}
+  findSightOriginPos: {x: 0.55, y: 0.6, z: -0.5}
   anim: {fileID: 1074133997}
   muzzleFlash: {fileID: 1031625872}
   fire_Sound: {fileID: 8300000, guid: c22241c2c40c7ae4b9e9473969b423b0, type: 3}
