@@ -52,6 +52,7 @@ public class PlayerControlller : MonoBehaviour
     private Rigidbody myRigid;
     private GunController theGunController;
     private CrossHair theCrosshair;
+    private StatusController theStatusController;
 
 
 
@@ -62,6 +63,7 @@ public class PlayerControlller : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider>();
         theGunController = FindObjectOfType<GunController>();
         theCrosshair = FindObjectOfType<CrossHair>();
+        theStatusController = FindObjectOfType<StatusController>();
         //상대적인 기준으로 받아dha
         //초기화
         applySpeed = walkSpeed;
@@ -171,6 +173,7 @@ public class PlayerControlller : MonoBehaviour
         if (isCrouch)
             Crouch();
 
+        theStatusController.DecreaseStamina(100);
         //up 010
         myRigid.velocity = transform.up * jumpForce;
 
@@ -197,6 +200,7 @@ public class PlayerControlller : MonoBehaviour
 
         isRun = true;
         theCrosshair.RunningAnimation(isRun);
+        theStatusController.DecreaseStamina(5);
         applySpeed = runSpeed;
     }
     //달리기 취소
