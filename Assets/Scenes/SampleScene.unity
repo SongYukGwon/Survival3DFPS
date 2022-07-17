@@ -4740,7 +4740,7 @@ GameObject:
   - component: {fileID: 764047508}
   m_Layer: 0
   m_Name: pig
-  m_TagString: Untagged
+  m_TagString: WeakAnimal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4806,6 +4806,7 @@ MonoBehaviour:
   hp: 2
   walkSpeed: 2
   runSpeed: 10
+  turnningSpeed: 0.5
   walkTime: 5
   waitTime: 4
   runTime: 5

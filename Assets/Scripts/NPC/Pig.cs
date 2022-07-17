@@ -2,90 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pig : MonoBehaviour
+public class Pig : WeakAnimal
 {
-    [SerializeField] private string animalName; //동물의 이름
-    [SerializeField] private int hp; // 동물의 체력.
 
-    [SerializeField] private float walkSpeed; //걷기 스피드
-    [SerializeField] private float runSpeed; //걷기 스피드
-    private float applySpeed;
-
-    private Vector3 direction; //방향
-
-    //상태변수
-    private bool isWalking; // 걷는지 안 걷는지 판별.
-    private bool isAction; // 행동중인지 아닌지 판별 
-    private bool isRunning; // 행동중인지 아닌지 판별 
-
-    [SerializeField] private float walkTime; //걷기 시간
-    [SerializeField] private float waitTime; //대기 시간
-    [SerializeField] private float runTime; //뛰는 시간
-    private float currentTime;
-
-
-    //필요한 컴포넌트
-    [SerializeField] private Animator anim;
-    [SerializeField] private Rigidbody rigid;
-    [SerializeField] private BoxCollider boxCol;
-
-    // Start is called before the first frame update
-    void Start()
+    protected override void ReSet()
     {
-        currentTime = waitTime;
-        isAction = true;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        Move();
-        Rotation();
-        ElapseTime();
-    }
-
-    private void Rotation()
-    {
-        if(isWalking || isRunning)
-        {
-            Vector3 _rotation = Vector3.Lerp(transform.eulerAngles, direction, 0.01f);
-            rigid.MoveRotation(Quaternion.Euler(_rotation));
-        }
-    }
-
-    private void Move()
-    {
-        if(isWalking )
-        {
-            rigid.MovePosition(transform.position + (transform.forward * walkSpeed * Time.deltaTime));
-        }
-        else if(isRunning)
-        {
-            rigid.MovePosition(transform.position + (transform.forward * runSpeed * Time.deltaTime));
-        }
-    }
-
-    private void ElapseTime()
-    {
-        if(isAction)
-        {
-            currentTime -= Time.deltaTime;
-            if (currentTime <= 0)
-                ReSet();//다음 랜덤 행동 게시
-        }
-    }
-
-    private void ReSet()
-    {
-        isWalking = false;
-        isRunning = false;
-        isAction = true;
-        anim.SetBool("Walking", isWalking);
-        anim.SetBool("Running", isRunning);
-        direction.Set(0f, Random.Range(0f, 360f), 0f);
+        base.ReSet();
         RandomAction();
     }
-
     private void RandomAction()
     {
 
@@ -117,22 +41,5 @@ public class Pig : MonoBehaviour
         currentTime = waitTime;
         anim.SetTrigger("Peek");
         Debug.Log("두리번");
-    }
-    public void TryWalk()
-    {
-        isWalking = true;
-        anim.SetBool("Walking", true);
-        currentTime = walkTime;
-        Debug.Log("걷기");
-    }
-
-    public void Run(Vector3 _targetPos)
-    {
-        direction = Quaternion.LookRotation(transform.position - _targetPos).eulerAngles;
-        currentTime = runTime;
-        isWalking = false;
-        isRunning = true;
-        applySpeed = runSpeed;
-        anim.SetBool("Running", isRunning);
     }
 }
