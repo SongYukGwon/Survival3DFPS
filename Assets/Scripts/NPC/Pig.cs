@@ -8,15 +8,19 @@ public class Pig : MonoBehaviour
     [SerializeField] private int hp; // 동물의 체력.
 
     [SerializeField] private float walkSpeed; //걷기 스피드
+    [SerializeField] private float runSpeed; //걷기 스피드
+    private float applySpeed;
 
     private Vector3 direction; //방향
 
     //상태변수
     private bool isWalking; // 걷는지 안 걷는지 판별.
     private bool isAction; // 행동중인지 아닌지 판별 
+    private bool isRunning; // 행동중인지 아닌지 판별 
 
     [SerializeField] private float walkTime; //걷기 시간
     [SerializeField] private float waitTime; //대기 시간
+    [SerializeField] private float runTime; //뛰는 시간
     private float currentTime;
 
 
@@ -42,7 +46,7 @@ public class Pig : MonoBehaviour
 
     private void Rotation()
     {
-        if(isWalking)
+        if(isWalking || isRunning)
         {
             Vector3 _rotation = Vector3.Lerp(transform.eulerAngles, direction, 0.01f);
             rigid.MoveRotation(Quaternion.Euler(_rotation));
@@ -51,9 +55,13 @@ public class Pig : MonoBehaviour
 
     private void Move()
     {
-        if(isWalking)
+        if(isWalking )
         {
             rigid.MovePosition(transform.position + (transform.forward * walkSpeed * Time.deltaTime));
+        }
+        else if(isRunning)
+        {
+            rigid.MovePosition(transform.position + (transform.forward * runSpeed * Time.deltaTime));
         }
     }
 
@@ -70,8 +78,10 @@ public class Pig : MonoBehaviour
     private void ReSet()
     {
         isWalking = false;
+        isRunning = false;
         isAction = true;
         anim.SetBool("Walking", isWalking);
+        anim.SetBool("Running", isRunning);
         direction.Set(0f, Random.Range(0f, 360f), 0f);
         RandomAction();
     }
@@ -108,11 +118,21 @@ public class Pig : MonoBehaviour
         anim.SetTrigger("Peek");
         Debug.Log("두리번");
     }
-    private void TryWalk()
+    public void TryWalk()
     {
         isWalking = true;
         anim.SetBool("Walking", true);
         currentTime = walkTime;
         Debug.Log("걷기");
+    }
+
+    public void Run(Vector3 _targetPos)
+    {
+        direction = Quaternion.LookRotation(transform.position - _targetPos).eulerAngles;
+        currentTime = runTime;
+        isWalking = false;
+        isRunning = true;
+        applySpeed = runSpeed;
+        anim.SetBool("Running", isRunning);
     }
 }
