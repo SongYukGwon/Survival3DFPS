@@ -115,8 +115,8 @@ public class StatusController : MonoBehaviour
                 currentHungryDecreaseTime = 0;
             }
         }
-        else
-            Debug.Log("배고픔 수치가 0이 되었습니다.");
+ //       else
+ //           Debug.Log("배고픔 수치가 0이 되었습니다.");
     }
 
     private void Thirsty()
@@ -131,8 +131,8 @@ public class StatusController : MonoBehaviour
                 currentThirstyDecreaseTime = 0;
             }
         }
-        else
-            Debug.Log("목마름 수치가 0이 되었습니다.");
+ //       else
+ //           Debug.Log("목마름 수치가 0이 되었습니다.");
     }
 
     private void GaugeUpdate()
